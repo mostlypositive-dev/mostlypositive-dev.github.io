@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How MP MultiChat accesses, uses, stores and deletes Twitch and Google/YouTube data.">
+  <meta name="referrer" content="no-referrer">
+  <title>Privacy policy — MP MultiChat</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="logo.png" type="image/png">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="shell">
+    <header>
+      <a class="brand" href="index.html"><img src="logo.png" alt="" width="44" height="44"><span>MostlyPositive<span class="brand-note">MP MultiChat</span></span></a>
+      <nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="privacy.html">Privacy</a></nav>
+    </header>
+    <main id="main" class="policy">
+      <p class="eyebrow">Data and account control</p>
+      <h1>Privacy policy</h1>
+      <p class="subtle">Last updated: October 19, 2026</p>
+      <p class="lead">MP MultiChat is a native Windows OBS plugin maintained by MostlyPositive through <a href="https://github.com/mostlypositive-dev">mostlypositive-dev</a>. It connects directly to Twitch and Google/YouTube. It does not operate an MP account service or a developer-hosted authentication or chat relay.</p>
+      <p>This policy describes the current 1.1 development implementation. Version 1.0 does not include the newer saved Activity history, viewer-card moderation, or offline public-subscriber monitoring features. Review this policy before connecting an account.</p>
+      <section>
+        <h2>1. Data the plugin accesses</h2>
+        <p>When you authorize a platform, the plugin receives OAuth access and refresh tokens, granted permissions, token-expiry information, and the connected channel's identifier and display name. You enter your own application's client ID and, when required for your Google Desktop client, its generated client secret locally in OBS. The plugin does not ask for or store your Google or Twitch account password.</p>
+        <p>Depending on available platform features and your settings, the plugin also processes:</p>
+        <ul>
+          <li>Broadcast, channel, live-chat, event, and message identifiers.</li>
+          <li>Chat text, timestamps, viewer names and identifiers, public profile information, profile-image URLs, colors, badges, emotes, and channel-owner/moderator/member/subscriber roles where supplied.</li>
+          <li>Supported activity such as Twitch follows, subscriptions, gifts, Bits and raids; YouTube memberships, member milestones, gifts, Super Chats, Super Stickers and other supported livestream support events. These can include event text, quantities, membership details, amounts and currencies supplied by the platform—not payment-card or billing credentials.</li>
+          <li>Recent public YouTube subscriber records when subscriber monitoring is enabled. Private subscriptions are not made available, and snapshot detection may be delayed or incomplete.</li>
+          <li>The outgoing messages and supported moderation requests you initiate in OBS.</li>
+        </ul>
+      </section>
+      <section>
+        <h2>2. Why this data is used</h2>
+        <p>Data is used to authenticate and restore the connected channel, receive and display combined chat and a separate Activity Feed, send your composed messages, load available viewer information and display assets, prevent duplicate events, recover connections, and carry out supported moderation actions after your confirmation.</p>
+        <p>YouTube access uses the <code>https://www.googleapis.com/auth/youtube.force-ssl</code> permission. Google describes that permission broadly; the implemented uses are channel identity, active-broadcast discovery, chat and activity receive/send, public-subscriber monitoring, public-profile lookup and supported user-initiated moderation. Twitch optional moderation features need additional permissions.</p>
+        <p>The plugin does not sell this data, use it for advertising, or send it to an AI service for model training. It has no developer-operated analytics or automatic chat/account-data upload service. Its data use is limited to the functions described here.</p>
+      </section>
+      <section>
+        <h2>3. Local storage and retention</h2>
+        <p>Settings, client IDs, and selected appearance controls are saved in your Windows user profile. OAuth tokens and a locally supplied Google Desktop-client secret are protected at rest with Windows Data Protection API (DPAPI), tied to the Windows security context. The plugin does not fall back to plaintext if protection fails.</p>
+        <p>Chat history and profile/image caches are bounded and held in memory, not saved as a chat archive by the plugin. They are discarded when OBS/the plugin process ends. Public profile images and emotes are downloaded from permitted platform image hosts; no developer image proxy is used.</p>
+        <p>In the current 1.1 development version, <strong>Save Activity Feed across OBS restarts</strong> is enabled by default. It saves a bounded DPAPI-protected local archive that can contain public actor/channel identities, event timestamps and text, membership/gift/amount metadata, and public image URLs. It does not store image bytes, credentials, or raw API responses in that archive. The default limit is 500 events, configurable from 100 to 5,000, with an additional serialized-data size limit.</p>
+        <p>The archive has no age-based automatic expiry: saved events remain until cleared, saving is disabled, the limit evicts them, or local data is removed. It may include more than one previously connected channel. Disconnecting an account or uninstalling the plugin does not by itself erase saved Activity history or appearance settings.</p>
+        <p>OBS retains its own diagnostic logs. MP MultiChat writes generic lifecycle/status messages and numeric failure information, not access tokens, refresh tokens, authorization codes, client secrets, or raw authentication payloads. OBS and other plugins have their own logging behavior. Avoid sharing unredacted logs.</p>
+      </section>
+      <section>
+        <h2>4. Connections and sharing</h2>
+        <p>OBS communicates with the selected platform's official authorization, API, chat/event and image services. Those services receive the network/request information needed to respond, and tokens are sent to the appropriate platform for authorized requests. User-selected profile or sign-in links open in your browser.</p>
+        <p>Messages you send to a platform are published through that platform and may be visible to its viewers. Choosing Both sends your composed message to both Twitch and YouTube; merely displaying received messages together does not repost viewers' messages across platforms. Confirmed moderation requests are sent to the selected platform and can change messages or viewer access there.</p>
+        <p>MostlyPositive does not automatically receive your account tokens, chat history or Activity archive. If you deliberately submit a support issue, screenshot or log, the information you submit is shared with that support channel and, for public GitHub issues, its readers. Do not submit private credentials or personal information.</p>
+        <p>Third-party services apply their own policies: <a href="https://policies.google.com/privacy">Google Privacy Policy</a>, <a href="https://www.twitch.tv/p/en/legal/privacy-notice/">Twitch Privacy Notice</a>, and the <a href="https://www.youtube.com/t/terms">YouTube Terms of Service</a>. MP MultiChat uses YouTube API Services.</p>
+      </section>
+      <section>
+        <h2>5. Disconnect, revoke access, and delete data</h2>
+        <ul>
+          <li><strong>Stop local account access:</strong> Tools → MP MultiChat Settings → Accounts → Disconnect for the relevant platform removes its local token grant. For Google, the confirmation offers local-only removal or an attempt to revoke remotely. Local-only removal does not revoke access at Google.</li>
+          <li><strong>Revoke Google access directly:</strong> remove the application's connection in your <a href="https://security.google.com/settings/security/permissions">Google Account security permissions</a>. Google revocation can affect other clients in the same Cloud project. You can also manage access through <a href="https://www.twitch.tv/settings/connections">Twitch Connections</a> for Twitch.</li>
+          <li><strong>Clear saved events:</strong> Settings → Appearance → Activity Feed → Clear activity history clears displayed and saved Activity Feed entries after confirmation. Disabling Save Activity Feed across OBS restarts and applying appearance deletes the saved archive while leaving the current in-memory feed visible.</li>
+          <li><strong>Remove the separately stored Google client secret:</strong> Accounts → Forget Google app secret removes that value, not the separate account grant or Activity history. Disconnect and clear history separately when desired.</li>
+          <li><strong>Full local reset:</strong> close OBS and remove only MP MultiChat's application-data folder, normally <code>%LOCALAPPDATA%\MostlyPositive\MP MultiChat</code>. This removes its saved credentials, settings and Activity archive, not content retained by platforms, separate OBS logs, or system backups. Never delete the whole LocalAppData or OBS directory.</li>
+        </ul>
+        <p>Windows permission/storage errors can prevent a local removal; the plugin reports an error rather than claiming success. Removing local records does not delete messages or events retained on Twitch or YouTube. Manage those through the platform's supported controls.</p>
+      </section>
+      <section>
+        <h2>6. This informational website</h2>
+        <p>This is a static GitHub Pages website. It has no Google/Twitch login form, application cookies, browser-storage features, embedded platform widgets, analytics scripts, or access to your OBS credentials. The pages use locally hosted styling and images.</p>
+        <p>GitHub provides the hosting and processes ordinary connection/request information, including visitor IP addresses for security, under the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub Privacy Statement</a>. Following an external link contacts that external service under its policies.</p>
+      </section>
+      <section>
+        <h2>7. Questions and policy updates</h2>
+        <p>For questions or complaints about these data practices, <a href="https://github.com/mostlypositive-dev/mostlypositive-dev.github.io/issues">open an issue with mostlypositive-dev in the website repository</a>. This is a public channel: describe your concern without including tokens, passwords, client secrets, private account data, or unredacted logs.</p>
+        <p>This page will be updated when the described practices change, with the update date shown above. Platform policies and account controls remain separate from this policy.</p>
+      </section>
+    </main>
+    <footer><span>MP MultiChat · MostlyPositive</span><a href="index.html">Project overview</a><a href="https://github.com/mostlypositive-dev">GitHub profile</a></footer>
+  </div>
+</body>
+</html>
